@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <PathDelim Value="\"/>
+    <Version Value="11"/>
+    <BuildModes Active="Default"/>
+    <Units Count="4">
+      <Unit0>
+        <Filename Value="prjImprime.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="-1"/>
+        <TopLine Value="-1"/>
+        <CursorPos X="-1" Y="-1"/>
+        <UsageCount Value="20"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="uimprime.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="Form1"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="uImprime"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="55"/>
+        <CursorPos X="37" Y="62"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="..\..\pdv\pdv\updv_rec.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="929"/>
+        <CursorPos X="40" Y="937"/>
+        <UsageCount Value="10"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="..\..\pdv\geral\udmpdv.pas"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="266"/>
+        <CursorPos X="44" Y="269"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit3>
+    </Units>
+    <JumpHistory Count="25" HistoryIndex="24">
+      <Position1>
+        <Filename Value="uimprime.pas"/>
+      </Position1>
+      <Position2>
+        <Filename Value="uimprime.pas"/>
+        <Caret Line="99" Column="13" TopLine="75"/>
+      </Position2>
+      <Position3>
+        <Filename Value="uimprime.pas"/>
+        <Caret Line="37" TopLine="36"/>
+      </Position3>
+      <Position4>
+        <Filename Value="uimprime.pas"/>
+        <Caret Line="60" TopLine="42"/>
+      </Position4>
+      <Position5>
+        <Filename Value="uimprime.pas"/>
+        <Caret Line="100" TopLine="84"/>
+      </Position5>
+      <Position6>
+        <Filename Value="uimprime.pas"/>
+        <Caret Line="98" Column="23" TopLine="77"/>
+      </Position6>
+      <Position7>
+        <Filename Value="uimprime.pas"/>
+        <Caret Line="100" TopLine="77"/>
+      </Position7>
+      <Position8>
+        <Filename Value="uimprime.pas"/>
+        <Caret Line="101" TopLine="78"/>
+      </Position8>
+      <Position9>
+        <Filename Value="uimprime.pas"/>
+        <Caret Line="102" TopLine="79"/>
+      </Position9>
+      <Position10>
+        <Filename Value="uimprime.pas"/>
+        <Caret Line="103" TopLine="80"/>
+      </Position10>
+      <Position11>
+        <Filename Value="uimprime.pas"/>
+        <Caret Line="104" TopLine="81"/>
+      </Position11>
+      <Position12>
+        <Filename Value="uimprime.pas"/>
+        <Caret Line="106" TopLine="83"/>
+      </Position12>
+      <Position13>
+        <Filename Value="uimprime.pas"/>
+        <Caret Line="108" TopLine="85"/>
+      </Position13>
+      <Position14>
+        <Filename Value="uimprime.pas"/>
+        <Caret Line="59" TopLine="46"/>
+      </Position14>
+      <Position15>
+        <Filename Value="uimprime.pas"/>
+        <Caret Line="60" TopLine="46"/>
+      </Position15>
+      <Position16>
+        <Filename Value="uimprime.pas"/>
+        <Caret Line="61" TopLine="46"/>
+      </Position16>
+      <Position17>
+        <Filename Value="uimprime.pas"/>
+        <Caret Line="62" TopLine="46"/>
+      </Position17>
+      <Position18>
+        <Filename Value="uimprime.pas"/>
+        <Caret Line="63" TopLine="46"/>
+      </Position18>
+      <Position19>
+        <Filename Value="uimprime.pas"/>
+        <Caret Line="65" TopLine="46"/>
+      </Position19>
+      <Position20>
+        <Filename Value="uimprime.pas"/>
+        <Caret Line="67" TopLine="46"/>
+      </Position20>
+      <Position21>
+        <Filename Value="uimprime.pas"/>
+        <Caret Line="68" TopLine="46"/>
+      </Position21>
+      <Position22>
+        <Filename Value="uimprime.pas"/>
+        <Caret Line="69" TopLine="47"/>
+      </Position22>
+      <Position23>
+        <Filename Value="uimprime.pas"/>
+        <Caret Line="59" TopLine="47"/>
+      </Position23>
+      <Position24>
+        <Filename Value="uimprime.pas"/>
+        <Caret Line="67" Column="35" TopLine="44"/>
+      </Position24>
+      <Position25>
+        <Filename Value="uimprime.pas"/>
+        <Caret Line="101" TopLine="87"/>
+      </Position25>
+    </JumpHistory>
+    <RunParams>
+      <FormatVersion Value="2"/>
+      <Modes Count="0" ActiveMode=""/>
+    </RunParams>
+  </ProjectSession>
+</CONFIG>

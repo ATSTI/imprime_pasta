@@ -1,0 +1,39 @@
+object Form1: TForm1
+  Left = 313
+  Height = 460
+  Top = 127
+  Width = 558
+  Caption = 'Imprimindo Pedidos'
+  ClientHeight = 460
+  ClientWidth = 558
+  OnShow = FormShow
+  LCLVersion = '2.0.0.4'
+  object memImp: TMemo
+    Left = 0
+    Height = 460
+    Top = 0
+    Width = 558
+    Align = alClient
+    ReadOnly = True
+    TabOrder = 0
+    WantTabs = True
+  end
+  object ACBrPosPrinter1: TACBrPosPrinter
+    ConfigBarras.MostrarCodigo = False
+    ConfigBarras.LarguraLinha = 0
+    ConfigBarras.Altura = 0
+    ConfigBarras.Margem = 0
+    ConfigQRCode.Tipo = 2
+    ConfigQRCode.LarguraModulo = 4
+    ConfigQRCode.ErrorLevel = 0
+    LinhasEntreCupons = 0
+    left = 174
+    top = 18
+  end
+  object Timer1: TTimer
+    Interval = 3000
+    OnTimer = Timer1Timer
+    left = 346
+    top = 16
+  end
+end
