@@ -7,7 +7,7 @@ object Form1: TForm1
   ClientHeight = 460
   ClientWidth = 558
   OnShow = FormShow
-  LCLVersion = '2.0.0.4'
+  LCLVersion = '2.0.8.0'
   object memImp: TMemo
     Left = 0
     Height = 460
@@ -19,6 +19,7 @@ object Form1: TForm1
     WantTabs = True
   end
   object ACBrPosPrinter1: TACBrPosPrinter
+    Modelo = ppEscPosEpson
     ConfigBarras.MostrarCodigo = False
     ConfigBarras.LarguraLinha = 0
     ConfigBarras.Altura = 0
@@ -31,9 +32,34 @@ object Form1: TForm1
     top = 18
   end
   object Timer1: TTimer
-    Interval = 3000
+    Interval = 5000
     OnTimer = Timer1Timer
     left = 346
     top = 16
+  end
+  object IbCon: TIBConnection
+    Connected = False
+    LoginPrompt = False
+    KeepConnection = False
+    Password = 'masterkey'
+    Transaction = SQLTransaction1
+    UserName = 'SYSDBA'
+    CheckTransactionParams = False
+    left = 259
+    top = 147
+  end
+  object SQLTransaction1: TSQLTransaction
+    Active = False
+    Database = IbCon
+    left = 158
+    top = 145
+  end
+  object sqlImprime: TSQLQuery
+    FieldDefs = <>
+    Database = IbCon
+    Transaction = SQLTransaction1
+    Params = <>
+    left = 161
+    top = 220
   end
 end

@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ExtCtrls,
-  ACBrPosPrinter, IniFiles;
+  ACBrPosPrinter, IniFiles, IBConnection, sqldb, base64;
 
 type
 
@@ -14,12 +14,17 @@ type
 
   TForm1 = class(TForm)
     ACBrPosPrinter1: TACBrPosPrinter;
+    IbCon: TIBConnection;
     memImp: TMemo;
+    sqlImprime: TSQLQuery;
+    SQLTransaction1: TSQLTransaction;
     Timer1: TTimer;
     procedure FormShow(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
   private
     portaImp: String;
+    pathImp: String;
+    CupomImp : String;
     espacoEntreLinhas: Integer;
     modeloImp : Integer;
   public
@@ -37,83 +42,116 @@ implementation
 
 procedure TForm1.Timer1Timer(Sender: TObject);
 var
-  arquivo : TStringList;
+  arquivo, arq : TStringList;
   busca: TSearchRec;
   i: Integer;
+  nome_arq: String;
 begin
-  // listar aquivos no diretorio
-  {
-  arquivo := TStringList.Create;
-  try
-    i := FindFirst('C:\home\imp', 0, busca);
-    While i = 0 do
-    begin
-      arquivo.Add(copy(busca.Name,1,Pos('.',busca.Name)-1));
-      i := FindNext(busca);
-    end;
-    memImp.Text:=arquivo;
-  except
-    arquivo.Free;
-    raise;
-  end;}
-  if (not FileExists('c:\home\imp\imp.txt')) then
-  begin
-    memImp.Clear;
-    memImp.Lines.Add('Sem impressão.');
-    exit;
-  end;
-  arquivo := TStringList.Create;
-  try
-    arquivo.LoadFromFile('c:\home\imp\imp.txt');
-    memImp.Clear;
-    memImp.Text:= arquivo.Text;
-  finally
-    arquivo.Free;
-  end;
-  DeleteFile('c:\home\imp\imp.txt');
-  ACBrPosPrinter1.Desativar;
   ACBrPosPrinter1.LinhasBuffer := 0;
   ACBrPosPrinter1.LinhasEntreCupons := espacoEntreLinhas;
-  //ACBrPosPrinter1.EspacoEntreLinhas := 0;
-  ACBrPosPrinter1.ColunasFonteNormal := 48;
+  //ACBrPosPrinter1.ColunasFonteNormal := 48;
   ACBrPosPrinter1.Porta  := portaImp;
-  //ACBrPosPrinter1.ControlePorta := cbControlePorta.Checked;
+  memImp.Lines.Add(portaImp);
   ACBrPosPrinter1.CortaPapel := True;
-  //ACBrPosPrinter1.TraduzirTags := cbTraduzirTags.Checked;
-  //ACBrPosPrinter1.IgnorarTags := cbIgnorarTags.Checked;
-  // ACBrPosPrinter1.PaginaDeCodigo := TACBrPosPaginaCodigo( cbxPagCodigo.ItemIndex );
-  // ACBrPosPrinter1.ConfigBarras.MostrarCodigo := cbHRI.Checked;
-  // ACBrPosPrinter1.ConfigBarras.LarguraLinha := seBarrasLargura.Value;
-  // ACBrPosPrinter1.ConfigBarras.Altura := seBarrasAltura.Value;
-  // ACBrPosPrinter1.ConfigQRCode.Tipo := seQRCodeTipo.Value;
-  // ACBrPosPrinter1.ConfigQRCode.LarguraModulo := seQRCodeLarguraModulo.Value;
-  // ACBrPosPrinter1.ConfigQRCode.ErrorLevel := seQRCodeErrorLevel.Value;
-  // ACBrPosPrinter1.ConfigLogo.KeyCode1 := seLogoKC1.Value;
-  // ACBrPosPrinter1.ConfigLogo.KeyCode2 := seLogoKC2.Value;
-  // ACBrPosPrinter1.ConfigLogo.FatorX := seLogoFatorX.Value;
-  // ACBrPosPrinter1.ConfigLogo.FatorY := seLogoFatorY.Value;
+  //ACBrPosPrinter1.Device.Baud := 115200;
   ACBrPosPrinter1.Modelo := TACBrPosPrinterModelo(modeloImp);
-  ACBrPosPrinter1.Ativar ;
-
-  ACBrPosPrinter1.Buffer.Text := MemImp.Lines.Text;
-  ACBrPosPrinter1.Imprimir;
-
+  memImp.Lines.Add(IntToStr(modeloImp));
+  if (CupomImp <> 'BD') then
+  begin
+    // listar aquivos no diretorio
+    arquivo := TStringList.Create;
+    //try
+      //i := FindFirst('C:\home\imp', 0, busca);
+      memImp.Lines.Add(pathImp + '\*');
+      i := FindFirst(pathImp + '\*', faAnyFile, busca);
+      While i = 0 do
+      begin
+        nome_arq := busca.Name;
+        if (Length(nome_arq) > 2) then
+        begin
+          nome_arq := pathImp + '\' + busca.Name;
+          memImp.Lines.Add(nome_arq);
+          arquivo.Add(nome_arq);
+        end;
+        i := FindNext(busca);
+      end;
+    //  memImp.Text:=arquivo.GetText;
+    //finally;
+    //  arquivo.Free;
+    //end;
+    for i := 0 to arquivo.Count - 1 do
+    begin
+      arq := TStringList.Create;
+      try
+        nome_arq := arquivo[i];
+        arq.LoadFromFile(nome_arq);
+        memImp.Clear;
+        memImp.Text:= arq.Text;
+        ACBrPosPrinter1.Ativar ;
+        ACBrPosPrinter1.Buffer.Text := MemImp.Lines.Text;
+        ACBrPosPrinter1.Imprimir;
+        ACBrPosPrinter1.Desativar;
+        DeleteFile(nome_arq);
+      finally
+        arq.Free;
+      end;
+    end;
+    arquivo.Free;
+  end
+  else begin // DB
+    if (sqlImprime.Active) then
+      sqlImprime.Close;
+    sqlImprime.SQL.Clear;
+    sqlImprime.SQL.Add('SELECT * FROM AVISOS');
+    sqlImprime.Open;
+    While not sqlImprime.EOF do
+    begin
+      memImp.Text := sqlImprime.FieldByName('DESCRICAO').AsString;
+      ACBrPosPrinter1.Ativar ;
+      ACBrPosPrinter1.Buffer.Text := MemImp.Lines.Text;
+      ACBrPosPrinter1.Imprimir;
+      ACBrPosPrinter1.Desativar;
+      IbCon.ExecuteDirect('DELETE FROM AVISOS WHERE CODAVISOS = ' +
+        IntToStr(sqlImprime.FieldByName('CODAVISOS').AsInteger));
+      sqlImprime.Next;
+    end;
+    SQLTransaction1.Commit;
+  end;
 end;
 
 procedure TForm1.FormShow(Sender: TObject);
 var path_exe: String;
     conf: TIniFile;
+    vstr: String;
 begin
   path_exe := ExtractFilePath(ParamStr(0));
   conf := TIniFile.Create(path_exe + 'conf.ini');
   try
     portaImp := conf.ReadString('IMPRESSORA', 'porta', '');
     ModeloImp := conf.ReadInteger('IMPRESSORA', 'Modelo', 0);
+    pathImp := conf.ReadString('IMPRESSORA', 'path', path_exe+'imp');
+    CupomImp := conf.ReadString('IMPRESSORA', 'Cupom', 'Texto');
     //CupomImp := conf.ReadString('IMPRESSORA', 'Cupom', 'Texto');
     espacoEntreLinhas := conf.ReadInteger('IMPRESSORA', 'EspacoEntreLinhas', 10);
+    if (CupomImp = 'BD') then
+    begin
+      IbCon.Connected:=False;
+      vstr := conf.ReadString('DATABASE', 'name', '');
+      IBCon.DatabaseName := vstr;
+      vstr := conf.ReadString('DATABASE', 'HostName', '');
+      IBCon.HostName := vstr;
+      vstr := conf.ReadString('DATABASE', 'Acesso', '');
+      //snh:= EncodeStringBase64(snh); // Ver a senha Encryptada
+      vstr:= DecodeStringBase64(vstr);
+      IBCon.Password := vstr;
+      vstr := IntToStr(conf.ReadInteger('DATABASE', 'Port', 3050));
+      IbCon.Params.Add('port=' + vstr);
+      IbCon.Connected:=True;
+    end;
   finally
     conf.Free;
   end;
+
 end;
 
 end.
